@@ -3,6 +3,15 @@ const calculatorDisplay = document.querySelector("h1");
 const inputBtns = document.querySelectorAll("button");
 const clearBtn = document.getElementById("clear-btn");
 
+// Calculate first and second values depending on operator
+const calculate = {
+  "/": (firstNumber, secondNumber) => firstNumber / secondNumber,
+  "*": (firstNumber, secondNumber) => firstNumber * secondNumber,
+  "+": (firstNumber, secondNumber) => firstNumber + secondNumber,
+  "-": (firstNumber, secondNumber) => firstNumber - secondNumber,
+  "=": (firstNumber, secondNumber) => secondNumber,
+};
+
 function sendNumberValue(number) {
   // Replace current display value if the current value is entered
   if (awaitingNextValue) {
@@ -29,15 +38,6 @@ function addDecimal() {
   }
 }
 
-// Calculate first and second values depending on operator
-const calculate = {
-  "/": (firstNumber, secondNumber) => firstNumber / secondNumber,
-  "*": (firstNumber, secondNumber) => firstNumber * secondNumber,
-  "+": (firstNumber, secondNumber) => firstNumber + secondNumber,
-  "-": (firstNumber, secondNumber) => firstNumber - secondNumber,
-  "=": (firstNumber, secondNumber) => secondNumber,
-};
-
 function useOperator(operator) {
   // Prevent multiple operators
   if (operatorValue && awaitingNextValue) {
@@ -58,6 +58,14 @@ function useOperator(operator) {
   operatorValue = operator;
 }
 
+// Reset all Values, Display
+function resetAll() {
+  firstValue = 0;
+  operatorValue = "";
+  awaitingNextValue = false;
+  calculatorDisplay.textContent = "0";
+}
+
 // Add event listeners for numbers, operator, decimal buttons
 inputBtns.forEach((inputBtn) => {
   if (inputBtn.classList.length === 0) {
@@ -68,14 +76,6 @@ inputBtns.forEach((inputBtn) => {
     inputBtn.addEventListener("click", () => addDecimal());
   }
 });
-
-// Reset all Values, Display
-function resetAll() {
-  firstValue = 0;
-  operatorValue = "";
-  awaitingNextValue = false;
-  calculatorDisplay.textContent = "0";
-}
 
 // Event Listener
 clearBtn.addEventListener("click", resetAll);
